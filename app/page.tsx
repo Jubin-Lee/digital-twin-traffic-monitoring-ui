@@ -15,8 +15,8 @@ import { ViewMode, MenuSection, TrafficEvent } from "@/lib/types";
 const MapView = dynamic(() => import("@/components/map-view").then((mod) => mod.MapView), {
   ssr: false,
   loading: () => (
-    <div className="absolute inset-0 bg-background flex items-center justify-center">
-      <div className="text-muted-foreground">지도 로딩중...</div>
+    <div className="absolute inset-0 bg-[#0d0d0d] flex items-center justify-center">
+      <div className="text-white/30 text-sm">지도 로딩중...</div>
     </div>
   ),
 });
@@ -40,7 +40,6 @@ export default function Home() {
   }, []);
 
   const handleEventConfirm = useCallback(() => {
-    // Handle event confirmation
     setShowEventDetail(false);
   }, []);
 
@@ -74,8 +73,8 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="h-screen w-screen overflow-hidden bg-background">
-      {/* Header */}
+    <div className="h-screen w-screen overflow-hidden bg-[#0d0d0d]">
+      {/* Header - Top bar */}
       <Header
         viewMode={viewMode}
         onViewModeChange={setViewMode}
@@ -85,7 +84,7 @@ export default function Home() {
         onDisplayModeChange={setDisplayMode}
       />
 
-      {/* Sidebar */}
+      {/* Sidebar - Left navigation */}
       <Sidebar
         activeSection={activeSection}
         onSectionChange={setActiveSection}
@@ -93,9 +92,9 @@ export default function Home() {
         onExpandedChange={setSidebarExpanded}
       />
 
-      {/* Main Content */}
-      <main className="absolute top-12 left-16 right-0 bottom-0">
-        {/* Map */}
+      {/* Main Content - Map area */}
+      <main className="absolute top-10 left-14 right-0 bottom-0">
+        {/* Full-screen Map */}
         <MapView
           events={mockEvents}
           edgeRSUs={mockEdgeRSUs}
@@ -104,7 +103,7 @@ export default function Home() {
           onEventClick={handleEventSelect}
         />
 
-        {/* Event Panel (Left Side) */}
+        {/* Event Panel (Left overlay) */}
         {activeSection === "이벤트정보" && !showEventDetail && (
           <EventPanel
             events={mockEvents}
@@ -114,7 +113,7 @@ export default function Home() {
           />
         )}
 
-        {/* Event Detail Panel (Left Side) */}
+        {/* Event Detail Panel (Left overlay) */}
         {showEventDetail && selectedEvent && (
           <EventDetail
             event={selectedEvent}
@@ -124,24 +123,19 @@ export default function Home() {
           />
         )}
 
-        {/* EdgeRSU Panel (Right Side) */}
+        {/* EdgeRSU Status Panel (Right overlay) */}
         <EdgeRSUPanel data={mockEdgeRSUs[0]} />
 
-        {/* CCTV Panel (Right Side) */}
+        {/* CCTV Panel (Right overlay) */}
         {showCCTV && (
           <CCTVPanel id="127.0.0.1" onClose={() => setShowCCTV(false)} />
         )}
 
         {/* Map Attribution */}
-        <div className="absolute bottom-2 right-2 text-[10px] text-muted-foreground bg-background/80 px-2 py-1 rounded">
+        <div className="absolute bottom-2 right-2 text-[9px] text-white/30 bg-black/60 px-2 py-0.5 rounded">
           MapLibre | &copy; OpenMapTiles &copy; OpenStreetMap contributors
         </div>
       </main>
-
-      {/* Title Overlay */}
-      <div className="absolute top-16 left-20 z-20">
-        <h2 className="text-lg font-medium text-foreground">통합상황판</h2>
-      </div>
     </div>
   );
 }
