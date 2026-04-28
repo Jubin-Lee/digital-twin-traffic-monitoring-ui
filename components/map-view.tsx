@@ -29,7 +29,8 @@ export function MapView({
   const loadGeoJSONData = useCallback(async (mapInstance: maplibregl.Map) => {
     const files = [
       { name: "A2_LINK", color: "#3b82f6", width: 3 },
-      { name: "A1_NODE", color: "#ffffff", type: "circle" },
+      { name: "A3_DRIVEWAYSECTION", color: "#1e40af", width: 2 },
+      { name: "B2_SURFACELINEMARK", color: "#94a3b8", width: 1 },
     ];
 
     for (const file of files) {
@@ -49,30 +50,16 @@ export function MapView({
             data: convertedData,
           });
 
-          if (file.type === "circle") {
-            mapInstance.addLayer({
-              id: layerId,
-              type: "circle",
-              source: sourceId,
-              paint: {
-                "circle-radius": 4,
-                "circle-color": file.color,
-                "circle-stroke-width": 1,
-                "circle-stroke-color": "#1e293b",
-              },
-            });
-          } else {
-            mapInstance.addLayer({
-              id: layerId,
-              type: "line",
-              source: sourceId,
-              paint: {
-                "line-color": file.color,
-                "line-width": file.width || 2,
-                "line-opacity": 0.8,
-              },
-            });
-          }
+          mapInstance.addLayer({
+            id: layerId,
+            type: "line",
+            source: sourceId,
+            paint: {
+              "line-color": file.color,
+              "line-width": file.width || 2,
+              "line-opacity": 0.8,
+            },
+          });
         }
       } catch (error) {
         console.log(`[v0] Could not load ${file.name}:`, error);

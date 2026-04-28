@@ -1,6 +1,7 @@
 {
   "name": "digital-twin-traffic-monitoring",
   "version": "1.0.0",
+  "type": "module",
   "description": "Digital Twin Traffic Monitoring Platform for Autonomous Vehicles",
   "scripts": {
     "dev": "next dev --turbopack",
